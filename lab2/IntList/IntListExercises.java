@@ -71,12 +71,17 @@ public class IntListExercises {
             return false;
         }
 
-        boolean currElemIsPrime = Primes.isPrime(lst.first);
+        boolean updated = false;//可以在遍历过程中维护一个布尔变量来记录是否有元素被平方过，这样可以减少不必要的计算。
+        IntList current = lst;//只要有一个元素是质数并被平方过，整个方法就会返回 true
 
-        if (currElemIsPrime) {
-            lst.first *= lst.first;
+        while (current != null) {
+            if (Primes.isPrime(current.first)) {
+                current.first *= current.first;
+                updated = true;
+            }
+            current = current.rest;
         }
 
-        return currElemIsPrime || squarePrimes(lst.rest);
+        return updated;
     }
 }
