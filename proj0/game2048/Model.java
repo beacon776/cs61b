@@ -251,7 +251,7 @@ public class Model extends Observable {
                 }
                 else if(board.tile(i, 3) != null && board.tile(i, 2) != null && board.tile(i, 1) == null && board.tile(i, 0) != null){
                     if(a.value()!=b.value()&&b.value()!=d.value()){//8 4 0 2
-                        board.move(i,2,d);
+                        board.move(i,1,d);
                         cn++;
                     }
                     else if(a.value()==b.value()){//2 2 0 2 or 4 4 0 2
