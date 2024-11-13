@@ -20,16 +20,14 @@ public class BuggyAList<Item> {
 
     /** Creates an empty list. */
     public BuggyAList() {
-        items = (Item[]) new Object[1];
+        items = (Item[]) new Object[100];
         size = 0;
     }
 
     /** Resizes the underlying array to the target capacity. */
     private void resize(int capacity) {
         Item[] a = (Item[]) new Object[capacity];
-        for (int i = 0; i < size; i += 1) {
-            a[i] = items[i];
-        }
+        System.arraycopy(items, 0, a, 0, size);
         items = a;
     }
 
@@ -59,9 +57,6 @@ public class BuggyAList<Item> {
     /** Deletes item from back of the list and
       * returns deleted item. */
     public Item removeLast() {
-        if ((size < items.length / 4) && (size > 4)) {
-            resize(size / 4);
-        }
         Item x = getLast();
         items[size - 1] = null;
         size = size - 1;
