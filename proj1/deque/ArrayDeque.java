@@ -10,8 +10,8 @@ public class ArrayDeque<T> {
     public ArrayDeque(){
         items = (T[]) new Object[8];
         size = 0;
-        nextFirst = items.length - 1;//最后一个元素的后面
-        nextLast = 0;//第一个元素的前面
+        nextFirst = 3;//最后一个元素的后面
+        nextLast = 4;//第一个元素的前面
     }
 
     private int FirstOnePosition(int index){//return 的是数组第一个元素所在的下标(下标从0开始)
@@ -29,16 +29,15 @@ public class ArrayDeque<T> {
            a[i] = items[currentindex];
            currentindex = FirstOnePosition(currentindex);
        }
-       items = a;
-        //这里别忘了更新
+        items = a;//这里别忘了更新
         nextFirst = capacity -1;//我们默认前面站满了，也就是说first在最后一位
         nextLast = size;//zhuyi duiwei
     }
 
     public void addFirst(T x){
         if(size == items.length )  resize(size * 2);
-        nextFirst = LastOnePosition(nextFirst);//zhuyi
         items[nextFirst] = x;
+        nextFirst = LastOnePosition(nextFirst);//zhuyi
         size += 1;
     }
 
@@ -69,9 +68,9 @@ public class ArrayDeque<T> {
 
     public T removeFirst(){
         if(size == 0) return null;
+        nextFirst = FirstOnePosition(nextFirst);
         T moveFirst = items[nextFirst];
         items[nextFirst] = null;
-        nextFirst = FirstOnePosition(nextFirst);
        size -= 1;
        if(size == 0){
            nextFirst = items.length - 1;
@@ -85,9 +84,9 @@ public class ArrayDeque<T> {
 
     public T removeLast(){
         if(size == 0) return null;
+        nextLast = LastOnePosition(nextLast);
         T moveLast = items[nextLast];
         items[nextLast] = null;
-        nextLast = LastOnePosition(nextLast);
         size -= 1;
         if(size == 0){
             nextFirst = items.length - 1;
