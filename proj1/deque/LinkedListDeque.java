@@ -70,7 +70,7 @@ public class LinkedListDeque<T> {
        Node newNode = oldNode.front;
        sentinel.front = newNode;
        newNode.next = sentinel;
-          return oldNode.value;//buhui
+          return oldNode.value;//
           }
           return null;
       }
