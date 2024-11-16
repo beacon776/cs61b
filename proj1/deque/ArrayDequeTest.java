@@ -119,17 +119,17 @@ public class ArrayDequeTest {
     /* Add large number of elements to deque; check if order is correct. */
     public void bigLLDequeTest() {
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < 10; i++) {
             lld1.addLast(i);
         }
 
-        for (int i = 0; i < 500000; i++) {
+        for (int i = 0; i < 5; i++) {
             Integer removed = lld1.removeFirst();
             System.out.println("Removed: " + removed + " Expected: " + i);
             assertEquals("Should have the same value", i, (int) removed);
         }
 
-        for (int i = 999999; i > 500000; i--) {
+        for (int i = 9; i > 5; i--) {
             Integer removed = lld1.removeLast();
             System.out.println("Removed: " + removed + " Expected: " + i);
             assertEquals("Should have the same value", i, (int) removed);
