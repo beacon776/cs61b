@@ -1,12 +1,12 @@
 package deque;
 
-public class LinkedListDeque<Blorp> {
+public class LinkedListDeque<T> {
  public class Node{
-      public Blorp value;
+      public T value;
       public Node front;
       public Node next;
 
-      public Node(Blorp i, Node a,Node b){
+      private Node(T i, Node a,Node b){
           value = i;
           front = a;
           next = b;
@@ -24,7 +24,7 @@ public class LinkedListDeque<Blorp> {
       }
 
 
-      public void addFirst(Blorp value){
+      public void addFirst(T value){
           size += 1;
           Node oldNode = sentinel.next;
           Node newNode = new Node(value,sentinel,oldNode);
@@ -32,7 +32,7 @@ public class LinkedListDeque<Blorp> {
           oldNode.front = newNode;
       }
 
-      public void addLast(Blorp value){
+      public void addLast(T value){
         size += 1;
         Node oldNode = sentinel.front;
         Node newNode = new Node(value,oldNode,sentinel);
@@ -51,7 +51,7 @@ public class LinkedListDeque<Blorp> {
         }
      }
 
-      public Blorp removeFirst(){
+      public T removeFirst(){
           if(!isEmpty()){//
         size-=1;
         Node oldNode = sentinel.next;
@@ -63,7 +63,7 @@ public class LinkedListDeque<Blorp> {
           return null;
       }
 
-      public Blorp removeLast(){
+      public T removeLast(){
           if(!isEmpty()){//
        size-=1;
        Node oldNode = sentinel.front;
@@ -75,7 +75,7 @@ public class LinkedListDeque<Blorp> {
           return null;
       }
 
-      public Blorp get(int index){//
+      public T get(int index){//
          if(index<0||index>=size) return null;
         Node current = sentinel.next;
         for(int i=0;i<index;i++){
@@ -88,11 +88,11 @@ public class LinkedListDeque<Blorp> {
         return size;
       }
 
-     public Blorp getRecursive(int index){
+     public T getRecursive(int index){
           if(index<0||index>=size) return null;
           return getRecursiveHelper(sentinel.next,index);
      }
-     public Blorp getRecursiveHelper(Node node,int index){
+     public T getRecursiveHelper(Node node,int index){
           if(size==0) return node.value;
           return getRecursiveHelper(node.next,index-1);
      }
