@@ -69,11 +69,15 @@ public class ArrayDeque<T> {
 
     public T removeFirst(){
         if(size == 0) return null;
-        nextFirst = FirstOnePosition(nextFirst);
         T moveFirst = items[nextFirst];
         items[nextFirst] = null;
+        nextFirst = FirstOnePosition(nextFirst);
        size -= 1;
-       if(size <= items.length/4 && items.length >= 8){
+       if(size == 0){
+           nextFirst = items.length - 1;
+           nextLast = 0;
+       }
+       else if(size <= items.length/4 && items.length >= 8){
            resize(items.length/2);
        }
        return moveFirst;
@@ -81,18 +85,22 @@ public class ArrayDeque<T> {
 
     public T removeLast(){
         if(size == 0) return null;
-        nextLast = LastOnePosition(nextLast);
         T moveLast = items[nextLast];
         items[nextLast] = null;
+        nextLast = LastOnePosition(nextLast);
         size -= 1;
-        if(size <= items.length/4 && items.length >= 8){
+        if(size == 0){
+            nextFirst = items.length - 1;
+            nextLast = 0;
+        }
+        else if(size <= items.length/4 && items.length >= 8){
             resize(items.length/2);
         }
         return moveLast;
     }
 
     public T get(int index){
-        if(index<0 || index>= size) return null;
+        if(index<0 || index>= size) return null;//这里注意等号，index==size时也是超出了范围的，第一遍交的时候这里有问题
         int firstPosition = FirstOnePosition(nextFirst);
         return items[(index+firstPosition) % items.length];
     }
