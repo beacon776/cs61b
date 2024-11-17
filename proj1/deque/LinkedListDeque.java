@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<T> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
  public class Node{
       public T value;
       public Node front;
@@ -23,6 +25,28 @@ public class LinkedListDeque<T> {
        sentinel.front = sentinel;//
       }
 
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListDequeIterator();
+    }
+
+    private class LinkedListDequeIterator implements Iterator<T>{
+        private Node current;
+
+        public LinkedListDequeIterator(){
+            current = sentinel.next;
+        }
+
+        public boolean hasNext(){
+            return current != sentinel;
+        }
+
+        public T next (){
+            T returnitem = current.value;
+            current = current.next;
+            return returnitem;
+        }
+    }
 
       public void addFirst(T value){
           size += 1;
@@ -41,12 +65,12 @@ public class LinkedListDeque<T> {
      }
 
      public boolean isEmpty(){
-            if(size==0) return true;
+            if(size == 0) return true;
             else return false;
      }
 
      public void printDeque(){
-        for(int i=0;i<size;i++){
+        for(int i = 0;i < size;i++){
             System.out.print(get(i)+" ");
         }
      }
@@ -89,12 +113,31 @@ public class LinkedListDeque<T> {
       }
 
      public T getRecursive(int index){
-          if(index<0||index>=size) return null;
+          if(index < 0 || index >= size) return null;
           return getRecursiveHelper(sentinel.next,index);
      }
+
      public T getRecursiveHelper(Node node,int index){
-          if(size==0) return node.value;
+          if(index == 0) return node.value;//这里控制成index == 0，别写成size哈，要不就无限死循环了。
           return getRecursiveHelper(node.next,index-1);
      }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || (o.getClass() != this.getClass())) {//比较两个对象是不是同一个类的实例,有助于保持 equals 方法的行为一致性和合理性。
+            return false;
+        }
+        LinkedListDeque<T> it = (LinkedListDeque<T>) o;;//在deque接口中是存在size这个东西的，而linklistdeque的size是private的
+        if (it.size() != this.size()) {
+            return false;
+        }
+        for(int i = 0;i < size ;i++){
+            if(!this.get(i).equals(it.get(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }
