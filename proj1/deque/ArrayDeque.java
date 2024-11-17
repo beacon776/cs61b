@@ -1,6 +1,8 @@
 package deque;
 
-public class ArrayDeque<T> {
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Deque<T> ,Iterable<T>{
 
     private int nextFirst;
     private int nextLast;//起始点和终止点我们不知道，因为可能在中间插入(它并不是完全从头插入从尾插入的，之前想错了)，所以说我们要自己限制这一段的头和尾
@@ -12,6 +14,29 @@ public class ArrayDeque<T> {
         size = 0;
         nextFirst = 3;//最后一个元素的后面
         nextLast = 4;//第一个元素的前面
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    private class ArrayDequeIterator implements Iterator<T>{
+       private int index;
+
+       public ArrayDequeIterator(){
+            index = FirstOnePosition(nextFirst);
+      }
+
+       public boolean hasNext(){
+        return index != nextLast;
+        }
+
+        public T next (){
+           T returnitem = items[index];
+           index = FirstOnePosition(index);
+           return returnitem;
+        }
     }
 
     private int FirstOnePosition(int index){//return 的是数组第一个元素所在的下标(下标从0开始)
@@ -36,7 +61,7 @@ public class ArrayDeque<T> {
 
     public void addFirst(T x){
         if(size == items.length )  resize(size * 2);
-        items[nextFirst] = x;
+        items[nextFirst] = x;//zhuyishunxu
         nextFirst = LastOnePosition(nextFirst);//zhuyi
         size += 1;
     }
@@ -68,7 +93,7 @@ public class ArrayDeque<T> {
 
     public T removeFirst(){
         if(size == 0) return null;
-        nextFirst = FirstOnePosition(nextFirst);
+        nextFirst = FirstOnePosition(nextFirst);//zhuyi
         T moveFirst = items[nextFirst];
         items[nextFirst] = null;
        size -= 1;
@@ -84,7 +109,7 @@ public class ArrayDeque<T> {
 
     public T removeLast(){
         if(size == 0) return null;
-        nextLast = LastOnePosition(nextLast);
+        nextLast = LastOnePosition(nextLast);//
         T moveLast = items[nextLast];
         items[nextLast] = null;
         size -= 1;
@@ -104,4 +129,35 @@ public class ArrayDeque<T> {
         return items[(index+firstPosition) % items.length];
     }
 
+    @Override
+    public boolean equals(Object others) {
+        if (this == others) {
+            return true;
+        }
+        if (others == null) {
+            return false;
+        }
+        if (others.getClass() != this.getClass()) {//比较两个对象是不是同一个类的实例,有助于保持 equals 方法的行为一致性和合理性。
+            return false;
+        }
+        ArrayDeque<T> o = (ArrayDeque<T>) others;
+        if (o.size() != this.size()) {
+            return false;
+        }
+        for (T item : this) {
+            if (!o.contains(item)) {//如果都含有相同元素(无论顺序)，就返回true
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean contains(T x) {
+        for (int i = 0; i < size; i += 1) {
+            if (items[i].equals(x)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
