@@ -2,14 +2,14 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T> ,Iterable<T>{
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private int nextFirst;
     private int nextLast;//起始点和终止点我们不知道，因为可能在中间插入(它并不是完全从头插入从尾插入的，之前想错了)，所以说我们要自己限制这一段的头和尾
     private int size;
     private T[] items;
 
-    public ArrayDeque(){
+    public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
         nextFirst = 3;//最后一个元素的后面
@@ -21,18 +21,18 @@ public class ArrayDeque<T> implements Deque<T> ,Iterable<T>{
         return new ArrayDequeIterator();
     }
 
-    private class ArrayDequeIterator implements Iterator<T>{
+    private class ArrayDequeIterator implements Iterator<T> {
        private int index;
 
-       public ArrayDequeIterator(){
+       public ArrayDequeIterator() {
             index = FirstOnePosition(nextFirst);
       }
 
-       public boolean hasNext(){
+       public boolean hasNext() {
         return index != nextLast;
         }
 
-        public T next (){
+        public T next () {
            T returnitem = items[index];
            index = FirstOnePosition(index);
            return returnitem;
@@ -59,21 +59,21 @@ public class ArrayDeque<T> implements Deque<T> ,Iterable<T>{
         nextLast = size;//zhuyi duiwei
     }
 
-    public void addFirst(T x){
+    public void addFirst(T x) {
         if(size == items.length )  resize(size * 2);
         items[nextFirst] = x;//zhuyishunxu
         nextFirst = LastOnePosition(nextFirst);//zhuyi
         size += 1;
     }
 
-    public void addLast(T x){
-        if (size == items.length  ) resize(size * 2);
+    public void addLast(T x) {
+        if (size == items.length ) resize(size * 2);
         items[nextLast] = x;//下标从0开始
         nextLast = FirstOnePosition(nextLast);//zhuyi
         size += 1;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         if(size == 0) return true;
         else return false;
     }
@@ -82,7 +82,7 @@ public class ArrayDeque<T> implements Deque<T> ,Iterable<T>{
         return size;
     }
 
-    public void printDeque(){
+    public void printDeque() {
         int currentindex = FirstOnePosition(nextFirst);
         for(int i = 0;i < size; i++){
             System.out.print(items[currentindex]+" ");
@@ -91,7 +91,7 @@ public class ArrayDeque<T> implements Deque<T> ,Iterable<T>{
         System.out.println();//一行用来美观的换行
     }
 
-    public T removeFirst(){
+    public T removeFirst() {
         if(size == 0) return null;
         nextFirst = FirstOnePosition(nextFirst);//zhuyi
         T moveFirst = items[nextFirst];
@@ -107,7 +107,7 @@ public class ArrayDeque<T> implements Deque<T> ,Iterable<T>{
        return moveFirst;
     }
 
-    public T removeLast(){
+    public T removeLast() {
         if(size == 0) return null;
         nextLast = LastOnePosition(nextLast);//
         T moveLast = items[nextLast];
@@ -123,7 +123,7 @@ public class ArrayDeque<T> implements Deque<T> ,Iterable<T>{
         return moveLast;
     }
 
-    public T get(int index){
+    public T get(int index) {
         if(index<0 || index>= size) return null;//这里注意等号，index==size时也是超出了范围的，第一遍交的时候这里有问题
         int firstPosition = FirstOnePosition(nextFirst);
         return items[(index+firstPosition) % items.length];
@@ -154,7 +154,7 @@ public class ArrayDeque<T> implements Deque<T> ,Iterable<T>{
 
     public boolean contains(T x) {
         for (int i = 0; i < size; i += 1) {
-            if (items[i].equals(x)) {
+            if (items[i].equals(x) && items[i] != null) {//这里应该加个空值检查
                 return true;
             }
         }
