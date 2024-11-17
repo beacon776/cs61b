@@ -3,136 +3,116 @@ package deque;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
-/** Performs some basic linked list tests. */
+/**
+ * Performs some basic Array Deque tests
+ */
 public class ArrayDequeTest {
-
+    /**
+     * Build the basic ArrayDeque and test the add methods with resizing the array
+     */
     @Test
-    /** Adds a few things to the list, checking isEmpty() and size() are correct,
-     * finally printing the results.
-     *
-     * && is the "and" operation. */
-    public void addIsEmptySizeTest() {
-
-        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-
-        ArrayDeque<String> lld1 = new ArrayDeque<String>();
-
-        assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
-        lld1.addFirst("front");
-
-        // The && operator is the same as "and" in Python.
-        // It's a binary operator that returns true if both arguments true, and false otherwise.
-        assertEquals(1, lld1.size());
-        assertFalse("lld1 should now contain 1 item", lld1.isEmpty());
-
-        lld1.addLast("middle");
-        assertEquals(2, lld1.size());
-
-        lld1.addLast("back");
-        assertEquals(3, lld1.size());
-
-        System.out.println("Printing out deque: ");
-        lld1.printDeque();
-
-    }
-
-    @Test
-    /** Adds an item, then removes an item, and ensures that dll is empty afterwards. */
-    public void addRemoveTest() {
-
-        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-
-        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
-        // should be empty
-        assertTrue("lld1 should be empty upon initialization", lld1.isEmpty());
-
-        lld1.addFirst(10);
-        // should not be empty
-        assertFalse("lld1 should contain 1 item", lld1.isEmpty());
-
-        lld1.removeFirst();
-        // should be empty
-        assertTrue("lld1 should be empty after removal", lld1.isEmpty());
-
-    }
-
-    @Test
-    /* Tests removing from an empty deque */
-    public void removeEmptyTest() {
-
-        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-
-        ArrayDeque<Integer> lld1 = new ArrayDeque<>();
-        lld1.addFirst(3);
-
-        lld1.removeLast();
-        lld1.removeFirst();
-        lld1.removeLast();
-        lld1.removeFirst();
-
-        int size = lld1.size();
-        String errorMsg = "  Bad size returned when removing from empty deque.\n";
-        errorMsg += "  student size() returned " + size + "\n";
-        errorMsg += "  actual size() returned 0\n";
-
-        assertEquals(errorMsg, 0, size);
-
-    }
-
-    @Test
-    /* Check if you can create LinkedListDeques with different parameterized types*/
-    public void multipleParamTest() {
-
-
-        ArrayDeque<String>  lld1 = new ArrayDeque<String>();
-        ArrayDeque<Double>  lld2 = new ArrayDeque<Double>();
-        ArrayDeque<Boolean> lld3 = new ArrayDeque<Boolean>();
-
-        lld1.addFirst("string");
-        lld2.addFirst(3.14159);
-        lld3.addFirst(true);
-
-        String s = lld1.removeFirst();
-        double d = lld2.removeFirst();
-        boolean b = lld3.removeFirst();
-
-    }
-
-    @Test
-    /* check if null is return when removing from an empty LinkedListDeque. */
-    public void emptyNullReturnTest() {
-
-        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-
-        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
-
-        boolean passed1 = false;
-        boolean passed2 = false;
-        assertEquals("Should return null when removeFirst is called on an empty Deque,", null, lld1.removeFirst());
-        assertEquals("Should return null when removeLast is called on an empty Deque,", null, lld1.removeLast());
-
-
-    }
-
-    @Test
-    /* Add large number of elements to deque; check if order is correct. */
-    public void bigLLDequeTest() {
-        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
-        for (int i = 0; i < 10; i++) {
-            lld1.addLast(i);
+    public void buildTest() {
+        ArrayDeque<Integer> intDeque = new ArrayDeque<>();
+        for (int i = 0; i < 50; i++){
+            intDeque.addFirst(i);
+            intDeque.addLast(-i);
         }
+        intDeque.printDeque();
+    }
 
+    /**
+     * Test the get method
+     */
+    @Test
+    public void getTest() {
+        ArrayDeque<Integer> intDeque = new ArrayDeque<>();
+        for (int i = 0; i < 50; i++){
+            intDeque.addLast(i);
+        }
+        int item = intDeque.get(28);
+        assertEquals(28, item);
+        assertNull(intDeque.get(1000));
+    }
+
+    @Test
+    public void sizeTest() {
+        ArrayDeque<Integer> intDeque = new ArrayDeque<>();
+        for (int i = 0; i < 50; i++){
+            intDeque.addLast(i);
+            assertEquals(i + 1, intDeque.size());
+        }
+    }
+
+    /**
+     * Test the remove methods, with resizing the length of the array
+     */
+    @Test
+    public void removeTest() {
+        ArrayDeque<Integer> intDeque = new ArrayDeque<>();
+        for (int i = 0; i < 50; i++) {
+            intDeque.addLast(i);
+        }
+        for (int i = 0; i < 20; i++) {
+            int tmpFirst = intDeque.removeFirst();
+            assertEquals(i, tmpFirst);
+            int tmpLast = intDeque.removeLast();
+            assertEquals(49 - i, tmpLast);
+        }
+    }
+
+    /**
+     * Test the array in the case that its size is larger than 100000
+     */
+    @Test
+    public void bigSizeArrayTest() {
+        ArrayDeque<Integer> intDeque = new ArrayDeque<>();
+        for (int i = 0; i < 100100; i++) {
+            intDeque.addLast(i);
+            intDeque.addFirst(i);
+            assertEquals(2 * i + 2, intDeque.size());
+        }
+        int item = intDeque.get(0);
+        assertEquals(100099, item);
+        for (int i = 0; i < 100100; i++){
+            intDeque.removeFirst();
+            intDeque.removeLast();
+        }
+    }
+
+    /**
+     * Test the isEmpty method
+     */
+    @Test
+    public void isEmptyTest() {
+        ArrayDeque<Integer> intDeque = new ArrayDeque<>();
+        assertTrue(intDeque.isEmpty());
+        for (int i = 0; i < 50; i++) {
+            intDeque.addLast(i);
+            assertFalse(intDeque.isEmpty());
+        }
+    }
+
+    /**
+     * Test different type of the item in the array
+     */
+    @Test
+    public void differentTypeTest() {
+        ArrayDeque<String> stringArrayDeque = new ArrayDeque<>();
+        ArrayDeque<Double> doubleArrayDeque = new ArrayDeque<>();
+        ArrayDeque<Boolean> booleanArrayDeque = new ArrayDeque<>();
+
+        String[] stringItems = {"I", "am", "a", "happy", "student", "with", "CS61B"};
         for (int i = 0; i < 5; i++) {
-            Integer removed = lld1.removeFirst();
-            System.out.println("Removed: " + removed + " Expected: " + i);
-            assertEquals("Should have the same value", i, (int) removed);
+            doubleArrayDeque.addLast((double) i + 0.114514);
+            booleanArrayDeque.addLast(true);
+            booleanArrayDeque.addLast(false);
+        }
+        for (String i: stringItems){
+            stringArrayDeque.addLast(i);
         }
 
-        for (int i = 9; i > 5; i--) {
-            Integer removed = lld1.removeLast();
-            System.out.println("Removed: " + removed + " Expected: " + i);
-            assertEquals("Should have the same value", i, (int) removed);
-        }
+        stringArrayDeque.printDeque();
+        doubleArrayDeque.printDeque();
+        booleanArrayDeque.printDeque();
     }
 }
