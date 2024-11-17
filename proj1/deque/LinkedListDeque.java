@@ -2,13 +2,13 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
- public class Node{
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
+ public class Node {
       public T value;
       public Node front;
       public Node next;
 
-      private Node(T i, Node a,Node b){
+      private Node(T i, Node a, Node b) {
           value = i;
           front = a;
           next = b;
@@ -18,7 +18,7 @@ public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
      private int size;
      private Node sentinel;
 
-      public LinkedListDeque(){
+      public LinkedListDeque() {
        size = 0;
        sentinel = new Node(null,null,null);
        sentinel.next = sentinel;//
@@ -30,25 +30,25 @@ public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
         return new LinkedListDequeIterator();
     }
 
-    private class LinkedListDequeIterator implements Iterator<T>{
+    private class LinkedListDequeIterator implements Iterator<T> {
         private Node current;
 
-        public LinkedListDequeIterator(){
+        public LinkedListDequeIterator() {
             current = sentinel.next;
         }
 
-        public boolean hasNext(){
+        public boolean hasNext() {
             return current != sentinel;
         }
 
-        public T next (){
+        public T next () {
             T returnitem = current.value;
             current = current.next;
             return returnitem;
         }
     }
 
-      public void addFirst(T value){
+      public void addFirst(T value) {
           size += 1;
           Node oldNode = sentinel.next;
           Node newNode = new Node(value,sentinel,oldNode);
@@ -56,7 +56,7 @@ public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
           oldNode.front = newNode;
       }
 
-      public void addLast(T value){
+      public void addLast(T value) {
         size += 1;
         Node oldNode = sentinel.front;
         Node newNode = new Node(value,oldNode,sentinel);
@@ -64,19 +64,19 @@ public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
         oldNode.next = newNode;
      }
 
-     public boolean isEmpty(){
+     public boolean isEmpty() {
             if(size == 0) return true;
             else return false;
      }
 
-     public void printDeque(){
-        for(int i = 0;i < size;i++){
+     public void printDeque() {
+        for(int i = 0;i < size;i++) {
             System.out.print(get(i)+" ");
         }
      }
 
-      public T removeFirst(){
-          if(!isEmpty()){//
+      public T removeFirst() {
+          if(!isEmpty()) {//
         size-=1;
         Node oldNode = sentinel.next;
         Node newNode = oldNode.next;
@@ -87,7 +87,7 @@ public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
           return null;
       }
 
-      public T removeLast(){
+      public T removeLast() {
           if(!isEmpty()){//
        size-=1;
        Node oldNode = sentinel.front;
@@ -99,7 +99,7 @@ public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
           return null;
       }
 
-      public T get(int index){//
+      public T get(int index) {//
          if(index<0||index>=size) return null;
         Node current = sentinel.next;
         for(int i=0;i<index;i++){
@@ -112,12 +112,12 @@ public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
         return size;
       }
 
-     public T getRecursive(int index){
+     public T getRecursive(int index) {
           if(index < 0 || index >= size) return null;
           return getRecursiveHelper(sentinel.next,index);
      }
 
-     public T getRecursiveHelper(Node node,int index){
+     public T getRecursiveHelper(Node node,int index) {
           if(index == 0) return node.value;//这里控制成index == 0，别写成size哈，要不就无限死循环了。
           return getRecursiveHelper(node.next,index-1);
      }
@@ -131,7 +131,7 @@ public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
         if (it.size() != this.size()) {
             return false;
         }
-        for(int i = 0;i < size ;i++){
+        for(int i = 0;i < size ;i++) {
             if(!this.get(i).equals(it.get(i))){
                 return false;
             }
