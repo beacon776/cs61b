@@ -73,11 +73,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size += 1;
     }
 
-    private boolean isEmpty() {
-        if(size == 0) return true;
-        else return false;
-    }
-
     public int size(){
         return size;
     }

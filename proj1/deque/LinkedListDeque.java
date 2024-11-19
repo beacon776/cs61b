@@ -63,11 +63,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         sentinel.front = newNode;
         oldNode.next = newNode;
      }
-
-     private boolean isEmpty() {
-            if(size == 0) return true;
-            else return false;
-     }
+     
 
      public void printDeque() {
         for(int i = 0;i < size;i++) {
