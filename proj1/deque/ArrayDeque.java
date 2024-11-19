@@ -130,29 +130,29 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     @Override
-    public boolean equals(Object others) {
-        if (this == others) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (others == null) {
+        if (o == null) {
             return false;
         }
-        if (others.getClass() != this.getClass()) {//比较两个对象是不是同一个类的实例,有助于保持 equals 方法的行为一致性和合理性。
+        if (o.getClass() != this.getClass()) {//比较两个对象是不是同一个类的实例,有助于保持 equals 方法的行为一致性和合理性。
             return false;
         }
-        ArrayDeque<T> o = (ArrayDeque<T>) others;
-        if (o.size() != this.size()) {
+        ArrayDeque<T> other = (ArrayDeque<T>) o;
+        if (size() != other.size()) {
             return false;
         }
-        for (T item : this) {
-            if (!o.contains(item)) {//如果都含有相同元素(无论顺序)，就返回true
+        for (int i =0; i < size(); i++) {
+            if (!get(i).equals(other.get(i))) {//如果都含有相同元素(无论顺序)，就返回true
                 return false;
             }
         }
         return true;
     }
 
-    public boolean contains(T x) {
+    private boolean contains(T x) {
         for (int i = 0; i < size; i += 1) {
             if (items[i].equals(x) && items[i] != null) {//这里应该加个空值检查
                 return true;

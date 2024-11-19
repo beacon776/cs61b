@@ -3,7 +3,7 @@ package deque;
 import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
- public class Node {
+ private class Node {
       public T value;
       public Node front;
       public Node next;
@@ -117,13 +117,16 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
           return getRecursiveHelper(sentinel.next,index);
      }
 
-     public T getRecursiveHelper(Node node,int index) {
+     private T getRecursiveHelper(Node node,int index) {
           if(index == 0) return node.value;//这里控制成index == 0，别写成size哈，要不就无限死循环了。
           return getRecursiveHelper(node.next,index-1);
      }
 
     @Override
     public boolean equals(Object o) {
+        if(this == o){
+            return true;
+        }
         if (o == null || (o.getClass() != this.getClass())) {//比较两个对象是不是同一个类的实例,有助于保持 equals 方法的行为一致性和合理性。
             return false;
         }
