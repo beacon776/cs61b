@@ -73,7 +73,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size += 1;
     }
 
-    public boolean isEmpty() {
+    private boolean isEmpty() {
         if(size == 0) return true;
         else return false;
     }
@@ -137,10 +137,10 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (o == null) {
             return false;
         }
-        if (o.getClass() != this.getClass()) {//比较两个对象是不是同一个类的实例,有助于保持 equals 方法的行为一致性和合理性。
+        if (!(o instanceof Deque)) {//比较两个对象是不是同一个类的实例,有助于保持 equals 方法的行为一致性和合理性。
             return false;
         }
-        ArrayDeque<T> other = (ArrayDeque<T>) o;
+        Deque<T> other = (Deque<T>) o;
         if (size() != other.size()) {
             return false;
         }
