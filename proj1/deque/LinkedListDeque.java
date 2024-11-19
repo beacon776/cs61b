@@ -64,7 +64,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         oldNode.next = newNode;
      }
 
-     public boolean isEmpty() {
+     private boolean isEmpty() {
             if(size == 0) return true;
             else return false;
      }
@@ -127,10 +127,10 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         if(this == o){
             return true;
         }
-        if (o == null || (o.getClass() != this.getClass())) {//比较两个对象是不是同一个类的实例,有助于保持 equals 方法的行为一致性和合理性。
+        if (o == null || !(o instanceof Deque)) {//比较两个对象是不是同一个Deque的实例,有助于保持 equals 方法的行为一致性和合理性。
             return false;
         }
-        LinkedListDeque<T> it = (LinkedListDeque<T>) o;;//在deque接口中是存在size这个东西的，而linklistdeque的size是private的
+        Deque<T> it = (Deque<T>) o;;//在deque接口中是存在size这个东西的，而linklistdeque的size是private的
         if (it.size() != this.size()) {
             return false;
         }
