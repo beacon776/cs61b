@@ -63,7 +63,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         sentinel.front = newNode;
         oldNode.next = newNode;
      }
-     
+
 
      public void printDeque() {
         for(int i = 0;i < size;i++) {
